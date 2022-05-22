@@ -31,7 +31,7 @@ class ParticipantCard extends StatelessWidget {
           headerAlignment: ExpandablePanelHeaderAlignment.center
         ),
         header: Padding(
-          padding: const EdgeInsets.fromLTRB(8, 8, 0, 8),
+          padding: const EdgeInsets.fromLTRB(8, 0, 0, 0),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
