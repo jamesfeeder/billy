@@ -20,7 +20,9 @@ class Billy extends StatelessWidget {
         title: 'billy',
         theme: ThemeData(
           useMaterial3: true,
+          platform: TargetPlatform.android,
           textTheme: GoogleFonts.srirachaTextTheme(),
+          primaryColor: const Color(0xfff4f4f9),
           colorScheme: ColorScheme(
             brightness: Brightness.light,
             primary: const Color(0xff2f4550),
