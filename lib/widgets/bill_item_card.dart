@@ -56,7 +56,9 @@ class BillItemCard extends StatelessWidget {
               children: data.participantsData.entries.map((e) {
                 return Chip(
                   label: Text(
-                    "${e.key} x${e.value}",
+                    data.equallyPay
+                    ? e.key
+                    : "${e.key} x${e.value}",
                     style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                       color: Theme.of(context).colorScheme.primary
                     )
