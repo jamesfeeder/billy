@@ -16,7 +16,7 @@ List<ParticipantData> generateParticipantBillData(BillData data) {
           dataList.addAll({data.name:price});
         } else {
           price = (pricePerItem*data.participantsData[participant]!.toInt()).ceil();
-          dataList.addAll({data.name:price});
+          dataList.addAll({'${data.name} x${data.participantsData[participant]}':price});
         }
         totalPrice += price;
       }
