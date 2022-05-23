@@ -16,44 +16,45 @@ class RemoveNameDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     var name = billDataProvider.participantData[index].name;
     return Dialog(
-      child: Padding(
-        padding: const EdgeInsets.fromLTRB(16,16,16,4),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Text(
               "ลบชื่อ",
               style: Theme.of(context).textTheme.headline6?.copyWith(
                 color: Theme.of(context).colorScheme.primary
               )
             ),
-            const SizedBox(height: 8,),
-            Text(
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: Text(
               'ลบ "$name" ออกจากรายชื่อ?',
               style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                 color: Theme.of(context).colorScheme.primary
               )
             ),
-            const SizedBox(height: 4,),
-            ButtonBar(
-              children: [
-                TextButton(
-                  onPressed: () => Navigator.pop(context),
-                  child: const Text("ยกเลิก")
-                ),
-                TextButton(
-                  onPressed: () {
-                    billDataProvider.removeParticipant(name);
-                    Navigator.pop(context);
-                  },
-                  child: const Text("ลบ")
-                )
-              ],
-            )
-          ],
-        ),
+          ),
+          ButtonBar(
+            children: [
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: const Text("ยกเลิก")
+              ),
+              TextButton(
+                onPressed: () {
+                  billDataProvider.removeParticipant(name);
+                  Navigator.pop(context);
+                },
+                child: const Text("ลบ")
+              )
+            ],
+          )
+        ],
       ),
     );
   }

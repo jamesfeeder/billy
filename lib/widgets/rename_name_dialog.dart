@@ -50,21 +50,23 @@ class _RenameNameDialogState extends State<RenameNameDialog> {
   @override
   Widget build(BuildContext context) {
     return Dialog(
-      child: Padding(
-        padding: const EdgeInsets.fromLTRB(16,16,16,4),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(16),
+            child: Text(
               "แก้ไขชื่อ",
               style: Theme.of(context).textTheme.headline6?.copyWith(
                 color: Theme.of(context).colorScheme.primary
               )
             ),
-            const SizedBox(height: 8,),
-            SizedBox(
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: SizedBox(
               height: 72,
               child: TextFormField(
                 controller: _controller,
@@ -87,29 +89,29 @@ class _RenameNameDialogState extends State<RenameNameDialog> {
                 }
               ),
             ),
-            ButtonBar(
-              children: [
-                TextButton(
-                  onPressed: () => Navigator.pop(context),
-                  child: const Text("ยกเลิก")
-                ),
-                TextButton(
-                  onPressed: canSave
-                  ? () {
-                    widget.billDataProvider
-                          .renameParticipant(
-                            _oldName,
-                            _newName
-                          );
-                    Navigator.pop(context);
-                  }
-                  : null,
-                  child: const Text("บันทึก")
-                )
-              ],
-            )
-          ],
-        ),
+          ),
+          ButtonBar(
+            children: [
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: const Text("ยกเลิก")
+              ),
+              TextButton(
+                onPressed: canSave
+                ? () {
+                  widget.billDataProvider
+                        .renameParticipant(
+                          _oldName,
+                          _newName
+                        );
+                  Navigator.pop(context);
+                }
+                : null,
+                child: const Text("บันทึก")
+              )
+            ],
+          )
+        ],
       ),
     );
   }
