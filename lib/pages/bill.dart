@@ -1,12 +1,13 @@
 import 'package:billy/core/models/bill_model.dart';
 import 'package:billy/core/providers/bill_data_provider.dart';
+import 'package:billy/widgets/participant_dialog/add_name_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 import '../widgets/bill_item_card.dart';
-import '../widgets/remove_name_dialog.dart';
-import '../widgets/rename_name_dialog.dart';
+import '../widgets/participant_dialog/remove_name_dialog.dart';
+import '../widgets/participant_dialog/rename_name_dialog.dart';
 import '../widgets/participant_card.dart';
 
 class BillPage extends StatefulWidget {
@@ -151,24 +152,33 @@ class _BillPageState extends State<BillPage> with SingleTickerProviderStateMixin
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          showDialog(
-            context: context,
-            builder: (context) {
-              return Dialog(
-                child: Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: const [
-                      Text("Test Dialog")
-                    ],
+          if (_tabController.index == 0) {
+            showDialog(
+              context: context,
+              builder: (context) {
+                return Dialog(
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: const [
+                        Text("Test Dialog")
+                      ],
+                    ),
                   ),
-                ),
-              );
-            }
-          );
+                );
+              }
+            );
+          } else {
+            showDialog(
+              context: context,
+              builder: (context) {
+                return AddNameDialog(billDataProvider: billDataProvider);
+              }
+            );
+          }
         },
         child: const Icon(Icons.add),
       ),
