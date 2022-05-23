@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:billy/core/models/bill_model.dart';
 import 'package:flutter/material.dart';
 
@@ -50,70 +52,73 @@ class _RenameNameDialogState extends State<RenameNameDialog> {
   @override
   Widget build(BuildContext context) {
     return Dialog(
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(16),
-            child: Text(
-              "แก้ไขชื่อ",
-              style: Theme.of(context).textTheme.headline6?.copyWith(
-                color: Theme.of(context).colorScheme.primary
-              )
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: SizedBox(
-              height: 72,
-              child: TextFormField(
-                controller: _controller,
-                style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+      child: SizedBox(
+        width: min(480, double.infinity),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(16),
+              child: Text(
+                "แก้ไขชื่อ",
+                style: Theme.of(context).textTheme.headline6?.copyWith(
                   color: Theme.of(context).colorScheme.primary
-                ),
-                decoration: const InputDecoration(hintText: "ชื่อ"),
-                autofocus: true,
-                autovalidateMode: AutovalidateMode.onUserInteraction,
-                validator: (value) {
-                  _newName = value!;
-                  if (value.isEmpty) {
-                    canSave = false;
-                    return "ยังไม่กรอกชื่อ";
-                  } else if (_billData.participants.contains(value)) {
-                    canSave = false;
-                    return "มีชื่อนี้อยู่แล้ว";
-                  } else {
-                    canSave = true;
-                    return null;
-                  }
-                }
+                )
               ),
             ),
-          ),
-          ButtonBar(
-            children: [
-              TextButton(
-                onPressed: () => Navigator.pop(context),
-                child: const Text("ยกเลิก")
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: SizedBox(
+                height: 72,
+                child: TextFormField(
+                  controller: _controller,
+                  style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                    color: Theme.of(context).colorScheme.primary
+                  ),
+                  decoration: const InputDecoration(hintText: "ชื่อ"),
+                  autofocus: true,
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
+                  validator: (value) {
+                    _newName = value!;
+                    if (value.isEmpty) {
+                      canSave = false;
+                      return "ยังไม่กรอกชื่อ";
+                    } else if (_billData.participants.contains(value)) {
+                      canSave = false;
+                      return "มีชื่อนี้อยู่แล้ว";
+                    } else {
+                      canSave = true;
+                      return null;
+                    }
+                  }
+                ),
               ),
-              TextButton(
-                onPressed: canSave
-                ? () {
-                  widget.billDataProvider
-                        .renameParticipant(
-                          _oldName,
-                          _newName
-                        );
-                  Navigator.pop(context);
-                }
-                : null,
-                child: const Text("บันทึก")
-              )
-            ],
-          )
-        ],
+            ),
+            ButtonBar(
+              children: [
+                TextButton(
+                  onPressed: () => Navigator.pop(context),
+                  child: const Text("ยกเลิก")
+                ),
+                TextButton(
+                  onPressed: canSave
+                  ? () {
+                    widget.billDataProvider
+                          .renameParticipant(
+                            _oldName,
+                            _newName
+                          );
+                    Navigator.pop(context);
+                  }
+                  : null,
+                  child: const Text("บันทึก")
+                )
+              ],
+            )
+          ],
+        ),
       ),
     );
   }
