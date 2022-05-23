@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../core/providers/bill_data_provider.dart';
+import '../../core/providers/bill_data_provider.dart';
 
 class RemoveNameDialog extends StatelessWidget {
   const RemoveNameDialog({

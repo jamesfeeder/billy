@@ -1,7 +1,7 @@
 import 'package:billy/core/models/bill_model.dart';
 import 'package:flutter/material.dart';
 
-import '../core/providers/bill_data_provider.dart';
+import '../../core/providers/bill_data_provider.dart';
 
 class RenameNameDialog extends StatefulWidget {
   const RenameNameDialog({
@@ -73,6 +73,8 @@ class _RenameNameDialogState extends State<RenameNameDialog> {
                 style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                   color: Theme.of(context).colorScheme.primary
                 ),
+                decoration: const InputDecoration(hintText: "ชื่อ"),
+                autofocus: true,
                 autovalidateMode: AutovalidateMode.onUserInteraction,
                 validator: (value) {
                   _newName = value!;
