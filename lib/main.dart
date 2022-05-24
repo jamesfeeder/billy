@@ -14,6 +14,7 @@ class Billy extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final billString = Uri.base.queryParameters['bill'];
     return ChangeNotifierProvider(
       create: (context) => BillDataProvider(),
       child: MaterialApp(
@@ -66,7 +67,7 @@ class Billy extends StatelessWidget {
             cursorColor: Color(0xff586f7c),
           )
         ),
-        home: const BillPage(),
+        home: BillPage(billString: billString),
       ),
     );
   }

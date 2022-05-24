@@ -1,4 +1,6 @@
+import 'package:billy/core/functions/data_convert.dart';
 import 'package:billy/core/functions/generate_part_data.dart';
+import 'package:billy/core/functions/persistent_data.dart';
 import 'package:billy/core/models/bill_model.dart';
 import 'package:flutter/material.dart';
 
@@ -6,19 +8,24 @@ import '../models/participant_model.dart';
 
 class BillDataProvider extends ChangeNotifier {
 
-  late BillData _billData;
+  BillData _billData = BillData(
+    participants: [],
+    paidList: [],
+    items: []
+  );
   BillData get billData => _billData;
 
-  late List<ParticipantData> _participantData;
+  List<ParticipantData> _participantData = [];
   List<ParticipantData> get participantData => _participantData;
 
-  late int _totalPrice;
+  int _totalPrice = 0;
   int get totalPrice => _totalPrice;
 
   set billData(BillData data) {
     _billData = data;
     _participantData = generateParticipantBillData(_billData);
     _totalPrice = calculateTotalPrice(_participantData);
+    save();
   }
 
   int calculateTotalPrice(List<ParticipantData> data) {
@@ -121,4 +128,21 @@ class BillDataProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  void save() {
+    saveBill(billDataToBase64(_billData));
+  }
+
+  void load() async {
+    var billString = await loadBill();
+    if (billString != null) {
+      billData = base64ToBillData(billString);
+    } else {
+      billData = BillData(
+        participants: [], 
+        paidList: [], 
+        items: []
+      );
+    }
+    notifyListeners();
+  }
 }

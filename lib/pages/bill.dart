@@ -1,10 +1,13 @@
+import 'package:billy/core/functions/data_convert.dart';
 import 'package:billy/core/models/bill_model.dart';
 import 'package:billy/core/providers/bill_data_provider.dart';
 import 'package:billy/widgets/bill_item_dialog/edit_item_dialog.dart';
 import 'package:billy/widgets/bill_item_dialog/remove_item_dialog.dart';
 import 'package:billy/widgets/clear_bill_dialog.dart';
 import 'package:billy/widgets/participant_dialog/add_name_dialog.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
@@ -15,7 +18,12 @@ import '../widgets/participant_dialog/rename_name_dialog.dart';
 import '../widgets/participant_card.dart';
 
 class BillPage extends StatefulWidget {
-  const BillPage({super.key});
+  const BillPage({
+    Key? key,
+    required this.billString
+  }) : super(key: key);
+
+  final String? billString;
 
   @override
   State<BillPage> createState() => _BillPageState();
@@ -25,37 +33,47 @@ class _BillPageState extends State<BillPage> with SingleTickerProviderStateMixin
 
   late TabController _tabController;
   late BillData _billData;
-
   String fabText = "เพิ่มรายการ";
 
   @override
   void initState() {
-    _billData = BillData(
-      participants: ["เจมส์","บูม","ต้นน้ำ"],
-      paidList: ["เจมส์"],
-      items: [
-        BillItemData(
-          name: "แฮมเบอร์เกอร์",
-          totalPrice: 300,
-          quantity: 3,
-          participantsData: {
-            "เจมส์":2,
-            "บูม":1
-          },
-          equallyPay: false
-        ),
-        BillItemData(
-          name: "โค้ก",
-          totalPrice: 60,
-          quantity: 3,
-          participantsData: {
-            "เจมส์":1,
-            "บูม":2
-          },
-          equallyPay: true
-        )
-      ]
-    );
+    var bp = Provider.of<BillDataProvider>(context, listen: false);
+    if (widget.billString != null) {
+      _billData = base64ToBillData(widget.billString!);
+      bp.billData = _billData;
+    } else {
+      if (kDebugMode) {
+        _billData = BillData(
+          participants: ["เจมส์","บูม","ต้นน้ำ"],
+          paidList: ["เจมส์"],
+          items: [
+            BillItemData(
+              name: "แฮมเบอร์เกอร์",
+              totalPrice: 300,
+              quantity: 3,
+              participantsData: {
+                "เจมส์":2,
+                "บูม":1
+              },
+              equallyPay: false
+            ),
+            BillItemData(
+              name: "โค้ก",
+              totalPrice: 60,
+              quantity: 3,
+              participantsData: {
+                "เจมส์":1,
+                "บูม":2
+              },
+              equallyPay: true
+            )
+          ]
+        );
+        bp.billData = _billData;
+      } else {
+        bp.load();
+      }
+    }
     _tabController = TabController(initialIndex: 0,length: 2, vsync: this);
     _tabController.addListener(() {
       setState(() {
@@ -67,7 +85,6 @@ class _BillPageState extends State<BillPage> with SingleTickerProviderStateMixin
       });
     });
     super.initState();
-    Provider.of<BillDataProvider>(context, listen: false).billData = _billData;
   }
 
   @override
@@ -212,6 +229,22 @@ class _BillPageState extends State<BillPage> with SingleTickerProviderStateMixin
                       },
                       icon: const Icon(Icons.clear),
                       label: const Text("ล้างบิลล์")
+                    ),
+                    TextButton.icon(
+                      style: const ButtonStyle(
+                        tapTargetSize: MaterialTapTargetSize.shrinkWrap
+                      ),
+                      onPressed: () {
+                        var url = Uri.base.toString();
+                        if (url.length >= 3) {
+                          url = url.substring(0, url.length - 3);
+                        }
+                        var shareableLink = '$url?bill=${billDataToBase64(billDataProvider.billData)}';
+                        print(shareableLink);
+                        Clipboard.setData(ClipboardData(text: shareableLink));
+                      },
+                      icon: const Icon(Icons.share),
+                      label: const Text("แชร์บิลล์")
                     )
                   ],
               ),
