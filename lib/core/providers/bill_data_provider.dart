@@ -43,7 +43,7 @@ class BillDataProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void remove(int index) {
+  void removeItem(int index) {
     BillData newBillData = _billData;
     newBillData.items.removeAt(index);
     billData = newBillData;
@@ -109,6 +109,15 @@ class BillDataProvider extends ChangeNotifier {
     }
 
     billData = newBillData;
+    notifyListeners();
+  }
+
+  void clear() {
+    billData = BillData(
+      participants: [], 
+      paidList: [], 
+      items: []
+    );
     notifyListeners();
   }
 
