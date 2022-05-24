@@ -121,7 +121,7 @@ class ParticipantCard extends StatelessWidget {
               children: [
                 Expanded(
                   child: Padding(
-                    padding: const EdgeInsets.all(8),
+                    padding: const EdgeInsets.symmetric(horizontal: 8),
                     child: Row(
                       children: [
                         Checkbox(
@@ -151,11 +151,17 @@ class ParticipantCard extends StatelessWidget {
                   alignment: MainAxisAlignment.end,
                   children: [
                     TextButton.icon(
+                      style: const ButtonStyle(
+                        tapTargetSize: MaterialTapTargetSize.shrinkWrap
+                      ),
                       onPressed: renameAction,
                       icon: const Icon(Icons.edit),
                       label: const Text("เปลี่ยนชื่อ")
                     ),
                     TextButton.icon(
+                      style: const ButtonStyle(
+                        tapTargetSize: MaterialTapTargetSize.shrinkWrap
+                      ),
                       onPressed: removeAction,
                       icon: const Icon(Icons.delete),
                       label: const Text("ลบชื่อ")
