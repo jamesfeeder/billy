@@ -12,7 +12,7 @@ List<ParticipantData> generateParticipantBillData(BillData data) {
         var pricePerItem = data.totalPrice/data.quantity;
         var price = 0;
         if (data.equallyPay) {
-          price = (pricePerItem*data.participantsData.length).ceil();
+          price = (data.totalPrice/data.participantsData.length).ceil();
           dataList.addAll({data.name:price});
         } else {
           price = (pricePerItem*data.participantsData[participant]!.toInt()).ceil();
