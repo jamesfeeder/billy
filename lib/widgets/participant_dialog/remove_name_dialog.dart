@@ -19,7 +19,7 @@ class RemoveNameDialog extends StatelessWidget {
     var name = billDataProvider.participantData[index].name;
     return Dialog(
       child: SizedBox(
-        width: min(480, double.infinity),
+        width: min(400, double.infinity),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.start,
@@ -54,7 +54,10 @@ class RemoveNameDialog extends StatelessWidget {
                     billDataProvider.removeParticipant(name);
                     Navigator.pop(context);
                   },
-                  child: const Text("ลบ")
+                  child: Text(
+                    "ลบ",
+                    style: TextStyle(color: Colors.red[900]),
+                  )
                 )
               ],
             )
