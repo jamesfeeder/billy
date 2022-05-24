@@ -28,4 +28,11 @@ class BillItemData {
     required this.participantsData,
     required this.equallyPay
   });
+
+  BillItemData.from(BillItemData data) :
+    name = data.name,
+    totalPrice = data.totalPrice,
+    quantity = data.quantity,
+    participantsData = data.participantsData,
+    equallyPay = data.equallyPay;
 }
