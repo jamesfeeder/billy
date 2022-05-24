@@ -53,7 +53,7 @@ class _RenameNameDialogState extends State<RenameNameDialog> {
   Widget build(BuildContext context) {
     return Dialog(
       child: SizedBox(
-        width: min(480, double.infinity),
+        width: min(400, double.infinity),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.start,

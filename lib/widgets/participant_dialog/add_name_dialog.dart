@@ -48,7 +48,7 @@ class _AddNameDialogState extends State<AddNameDialog> {
   Widget build(BuildContext context) {
     return Dialog(
       child: SizedBox(
-        width: min(480, double.infinity),
+        width: min(400, double.infinity),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.start,
