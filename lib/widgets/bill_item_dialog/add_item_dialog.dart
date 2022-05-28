@@ -1,6 +1,6 @@
-import 'package:billy/core/models/bill_model.dart';
 import 'package:flutter/material.dart';
 
+import '../../core/models/bill_model.dart';
 import '../../core/providers/bill_data_provider.dart';
 
 class AddItemDialog extends StatefulWidget {
@@ -48,7 +48,7 @@ class _AddItemDialogState extends State<AddItemDialog> {
       body: Form(
         key: _formKey,
         child: ListView(
-          padding: const EdgeInsets.symmetric(vertical: 16),
+          padding: const EdgeInsets.fromLTRB(0, 16, 0, 80),
           children: [
             Padding(
               padding: const EdgeInsets.fromLTRB(8, 0, 8, 16),
@@ -121,6 +121,7 @@ class _AddItemDialogState extends State<AddItemDialog> {
                         if (int.tryParse(value) != null) {
                           setState(() {
                             billItemData.quantity = int.parse(value);
+                            manageAssignedSlot();
                           });
                         }
                       },
@@ -175,31 +176,7 @@ class _AddItemDialogState extends State<AddItemDialog> {
                     onChanged: (value) {
                       setState(() {
                         billItemData.equallyPay = value!;
-                        if (!value) {
-                          var itemAmount = billItemData.quantity;
-                          Map<String, int> newMap =
-                                Map.from(billItemData.participantsData);
-                          
-                          if (assignedSlot > itemAmount) {
-                            assignedSlot = itemAmount;
-                          }
-
-                          var count = 0;
-                          billItemData.participantsData.forEach((key, value) {
-                            count += value;
-                            if (count > itemAmount) {
-                              if (count - itemAmount < value) {
-                                newMap.update(
-                                  key,(value) => value - (count - itemAmount)
-                                );
-                              } else {
-                                newMap.remove(key);
-                              }
-                              assignedSlot = itemAmount;
-                            }
-                          });
-                          billItemData.participantsData = newMap;
-                        }
+                        manageAssignedSlot();
                       });
                     }
                   ),
@@ -267,7 +244,6 @@ class _AddItemDialogState extends State<AddItemDialog> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8),
               child: Wrap(
-                runSpacing: 8,
                 spacing: 8,
                 children: participants.map((e) {
                   return FilterChip(
@@ -277,6 +253,7 @@ class _AddItemDialogState extends State<AddItemDialog> {
                     onSelected: 
                     !billItemData.participantsData.containsKey(e)
                     && billItemData.quantity <= assignedSlot
+                    && !billItemData.equallyPay
                     ? null
                     : (value) {
                         setState(() {
@@ -407,5 +384,33 @@ class _AddItemDialogState extends State<AddItemDialog> {
         },
       ),
     );
+  }
+
+  void manageAssignedSlot() {
+    if (!billItemData.equallyPay) {
+      var itemAmount = billItemData.quantity;
+      Map<String, int> newMap =
+            Map.from(billItemData.participantsData);
+      if (assignedSlot > itemAmount) {
+        assignedSlot = itemAmount;
+      }
+      var count = 0;
+      billItemData.participantsData.forEach((key, value) {
+        count += value;
+        if (count > itemAmount) {
+          if (count - itemAmount < value) {
+            newMap.update(
+              key,(value) => value-(count-itemAmount)
+            );
+          } else {
+            newMap.remove(key);
+          }
+          assignedSlot = itemAmount;
+        } else {
+          assignedSlot = count;
+        }
+      });
+      billItemData.participantsData = newMap;
+    }
   }
 }
