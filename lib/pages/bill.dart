@@ -1,18 +1,19 @@
-import 'package:billy/core/functions/data_convert.dart';
-import 'package:billy/core/models/bill_model.dart';
-import 'package:billy/core/providers/bill_data_provider.dart';
-import 'package:billy/widgets/bill_item_dialog/edit_item_dialog.dart';
-import 'package:billy/widgets/bill_item_dialog/remove_item_dialog.dart';
-import 'package:billy/widgets/clear_bill_dialog.dart';
-import 'package:billy/widgets/participant_dialog/add_name_dialog.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:provider/provider.dart';
 
+import '../core/functions/data_convert.dart';
+import '../core/models/bill_model.dart';
+import '../core/providers/bill_data_provider.dart';
 import '../widgets/bill_item_card.dart';
 import '../widgets/bill_item_dialog/add_item_dialog.dart';
+import '../widgets/bill_item_dialog/edit_item_dialog.dart';
+import '../widgets/bill_item_dialog/remove_item_dialog.dart';
+import '../widgets/clear_bill_dialog.dart';
+import '../widgets/participant_dialog/add_name_dialog.dart';
 import '../widgets/participant_dialog/remove_name_dialog.dart';
 import '../widgets/participant_dialog/rename_name_dialog.dart';
 import '../widgets/participant_card.dart';
@@ -29,7 +30,8 @@ class BillPage extends StatefulWidget {
   State<BillPage> createState() => _BillPageState();
 }
 
-class _BillPageState extends State<BillPage> with SingleTickerProviderStateMixin {
+class _BillPageState extends State<BillPage>
+    with SingleTickerProviderStateMixin {
 
   late TabController _tabController;
   late BillData _billData;
@@ -44,7 +46,7 @@ class _BillPageState extends State<BillPage> with SingleTickerProviderStateMixin
     } else {
       if (kDebugMode) {
         _billData = BillData(
-          participants: ["เจมส์","บูม","ต้นน้ำ"],
+          participants: ["เจมส์","บูม","ต้นน้ำ","โกลรี่","พี่กิต","จ๋า","อู๊"],
           paidList: ["เจมส์"],
           items: [
             BillItemData(
@@ -56,6 +58,36 @@ class _BillPageState extends State<BillPage> with SingleTickerProviderStateMixin
                 "บูม":1
               },
               equallyPay: false
+            ),
+            BillItemData(
+              name: "โค้ก",
+              totalPrice: 60,
+              quantity: 3,
+              participantsData: {
+                "เจมส์":1,
+                "บูม":2
+              },
+              equallyPay: true
+            ),
+            BillItemData(
+              name: "โค้ก",
+              totalPrice: 60,
+              quantity: 3,
+              participantsData: {
+                "เจมส์":1,
+                "บูม":2
+              },
+              equallyPay: true
+            ),
+            BillItemData(
+              name: "โค้ก",
+              totalPrice: 60,
+              quantity: 3,
+              participantsData: {
+                "เจมส์":1,
+                "บูม":2
+              },
+              equallyPay: true
             ),
             BillItemData(
               name: "โค้ก",
@@ -95,7 +127,22 @@ class _BillPageState extends State<BillPage> with SingleTickerProviderStateMixin
         title: Text(
           "billy",
           style: GoogleFonts.sriracha(fontSize: 28),
-          ),
+        ),
+        actions: [
+          IconButton(
+            onPressed: () async {
+              PackageInfo packageInfo = await PackageInfo.fromPlatform();
+              String appName = packageInfo.appName;
+              String version = packageInfo.version;
+              showAboutDialog(
+                context: context,
+                applicationName: appName,
+                applicationVersion: version
+              );
+            },
+            icon: const Icon(Icons.info)
+          )
+        ],
         bottom: TabBar(
           labelStyle: Theme.of(context).textTheme.bodyLarge,
           automaticIndicatorColorAdjustment: true,
@@ -120,7 +167,7 @@ class _BillPageState extends State<BillPage> with SingleTickerProviderStateMixin
             )
           )
           : ListView.builder(
-            padding: const EdgeInsets.all(8),
+            padding: const EdgeInsets.fromLTRB(8, 8, 8, 80),
             itemCount: billDataProvider.billData.items.length,
             itemBuilder: (context, index) {
               return BillItemCard(
@@ -163,7 +210,7 @@ class _BillPageState extends State<BillPage> with SingleTickerProviderStateMixin
             )
           )
           : ListView.builder(
-            padding: const EdgeInsets.all(8),
+            padding: const EdgeInsets.fromLTRB(8, 8, 8, 80),
             itemCount: billDataProvider.participantData.length,
             itemBuilder: (context, index) {
               return ParticipantCard(
@@ -239,9 +286,19 @@ class _BillPageState extends State<BillPage> with SingleTickerProviderStateMixin
                         if (url.length >= 3) {
                           url = url.substring(0, url.length - 3);
                         }
-                        var shareableLink = '$url?bill=${billDataToBase64(billDataProvider.billData)}';
-                        print(shareableLink);
+                        var shareableLink =
+                            '$url?bill=${billDataToBase64(billDataProvider.billData)}';
                         Clipboard.setData(ClipboardData(text: shareableLink));
+                        var snackBar = SnackBar(
+                          behavior: SnackBarBehavior.floating,
+                          content: Text(
+                            'คัดลอกลิงก์สำหรับแชร์แล้ว',
+                            style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                              color: Theme.of(context).colorScheme.onPrimary
+                            ),
+                          ),
+                        );
+                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
                       },
                       icon: const Icon(Icons.share),
                       label: const Text("แชร์บิลล์")
