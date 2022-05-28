@@ -1,6 +1,6 @@
 class ParticipantData {
   String name;
-  Map<String,int> items;
+  List<List<dynamic>> items;
   int totalPrice;
   bool isExpanded;
 

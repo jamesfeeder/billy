@@ -85,19 +85,19 @@ class ParticipantCard extends StatelessWidget {
               child: data.items.isNotEmpty 
               ? Column(
                   children: data.items
-                  .entries.map((e) {
+                  .map((e) {
                     return Row(
                       mainAxisSize: MainAxisSize.max,
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          e.key,
+                          e[0],
                           style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                             color: Theme.of(context).colorScheme.primary
                           )
                         ),
                         Text(
-                          '${e.value} บาท',
+                          '${e[1]} บาท',
                           style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                             color: Theme.of(context).colorScheme.primary
                           )
