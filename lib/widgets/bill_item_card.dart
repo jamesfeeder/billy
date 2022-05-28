@@ -1,5 +1,6 @@
-import 'package:billy/core/models/bill_model.dart';
 import 'package:flutter/material.dart';
+
+import '../core/models/bill_model.dart';
 
 class BillItemCard extends StatelessWidget {
   const BillItemCard({
@@ -79,7 +80,6 @@ class BillItemCard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 Wrap(
-                  runSpacing: 8,
                   spacing: 8,
                   children: data.participantsData.entries.map((e) {
                     return Chip(

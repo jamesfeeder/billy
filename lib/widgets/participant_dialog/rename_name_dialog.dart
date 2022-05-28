@@ -1,8 +1,8 @@
 import 'dart:math';
 
-import 'package:billy/core/models/bill_model.dart';
 import 'package:flutter/material.dart';
 
+import '../../core/models/bill_model.dart';
 import '../../core/providers/bill_data_provider.dart';
 
 class RenameNameDialog extends StatefulWidget {

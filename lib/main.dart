@@ -1,9 +1,10 @@
-import 'package:billy/core/providers/bill_data_provider.dart';
-import 'package:billy/pages/bill.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:tab_indicator_styler/tab_indicator_styler.dart';
+
+import 'core/providers/bill_data_provider.dart';
+import 'pages/bill.dart';
 
 void main() {
   runApp(const Billy());
