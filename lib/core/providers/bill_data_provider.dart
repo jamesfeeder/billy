@@ -1,9 +1,9 @@
-import 'package:billy/core/functions/data_convert.dart';
-import 'package:billy/core/functions/generate_part_data.dart';
-import 'package:billy/core/functions/persistent_data.dart';
-import 'package:billy/core/models/bill_model.dart';
 import 'package:flutter/material.dart';
 
+import '../functions/data_convert.dart';
+import '../functions/generate_part_data.dart';
+import '../functions/persistent_data.dart';
+import '../models/bill_model.dart';
 import '../models/participant_model.dart';
 
 class BillDataProvider extends ChangeNotifier {
@@ -24,16 +24,16 @@ class BillDataProvider extends ChangeNotifier {
   set billData(BillData data) {
     _billData = data;
     _participantData = generateParticipantBillData(_billData);
-    _totalPrice = calculateTotalPrice(_participantData);
+    _totalPrice = calculateTotalPrice(_billData.items);
     save();
   }
 
-  int calculateTotalPrice(List<ParticipantData> data) {
-    var sum = 0;
+  int calculateTotalPrice(List<BillItemData> data) {
+    var sum = 0.0;
     for (var i in data) {
       sum += i.totalPrice;
     }
-    return sum;
+    return sum.ceil();
   }
 
   void addItem(BillItemData item) {
