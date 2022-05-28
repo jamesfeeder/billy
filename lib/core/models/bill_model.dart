@@ -10,17 +10,17 @@ class BillData {
   });
 
   BillData.fromJson(Map<String,dynamic> data):
-    participants =  List<String>.from(data['participants']),
-    paidList = List<String>.from(data['paidList']),
-    items = List<Map<String, dynamic>>.from(data['items'])
+    participants =  List<String>.from(data['p']),
+    paidList = List<String>.from(data['pl']),
+    items = List<Map<String, dynamic>>.from(data['i'])
             .map((e) => BillItemData.fromJson(e))
             .toList();
 
   Map<String,dynamic> toJson() {
     return {
-      'participants':participants,
-      'paidList':paidList,
-      'items':items.map((e) => e.toJson()).toList()
+      'p':participants,
+      'pl':paidList,
+      'i':items.map((e) => e.toJson()).toList()
     };
   }
 }
@@ -48,19 +48,19 @@ class BillItemData {
     equallyPay = data.equallyPay;
 
   BillItemData.fromJson(Map<String,dynamic> data):
-    name = data['name'],
-    totalPrice = data['totalPrice'],
-    quantity = data['quantity'],
-    participantsData = Map.from(data['participantsData']),
-    equallyPay = data['equallyPay'];
+    name = data['n'],
+    totalPrice = data['tp'],
+    quantity = data['q'],
+    participantsData = Map.from(data['pd']),
+    equallyPay = data['ep'];
 
   Map<String,dynamic> toJson() {
     return {
-      'name':name,
-      'totalPrice':totalPrice,
-      'quantity':quantity,
-      'participantsData':participantsData,
-      'equallyPay':equallyPay
+      'n':name,
+      'tp':totalPrice,
+      'q':quantity,
+      'pd':participantsData,
+      'ep':equallyPay
     };
   }
 }
