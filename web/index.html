@@ -1,19 +1,15 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <!--
-    If you are serving your web app in a path other than the root, change the
-    href value below to reflect the base path you are serving from.
 
-    The path provided below has to start and end with a slash "/" in order for
-    it to work correctly.
-
-    For more details:
-    * https://developer.mozilla.org/en-US/docs/Web/HTML/Element/base
-
-    This is a placeholder for base href that will be replaced by the value of
-    the `--base-href` argument provided to `flutter build`.
-  -->
+  <style>
+    div {
+      color: #2f4550;
+      font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+      text-align: center;
+    }
+  </style>
+  
   <!-- <base href="$FLUTTER_BASE_HREF"> -->
   <base href="/billy/"> 
 
@@ -41,16 +37,20 @@
   <script src="flutter.js" defer></script>
 </head>
 <body>
+  <div id="loading"></div>
   <script>
     window.addEventListener('load', function(ev) {
-      // Download main.dart.js
+      var loading = document.querySelector('#loading');
+      loading.textContent = "Billy is loading...";
       _flutter.loader.loadEntrypoint({
         serviceWorker: {
           serviceWorkerVersion: serviceWorkerVersion,
         }
       }).then(function(engineInitializer) {
+        loading.textContent = "Billy is loading...";
         return engineInitializer.initializeEngine();
       }).then(function(appRunner) {
+        loading.textContent = "Billy is loading...";
         return appRunner.runApp();
       });
     });
