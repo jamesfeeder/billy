@@ -1,13 +1,12 @@
 class ParticipantData {
   String name;
   List<List<dynamic>> items;
-  int totalPrice;
+  double totalPrice;
   bool isExpanded;
 
-  ParticipantData({
-    required this.name,
-    required this.items,
-    required this.totalPrice,
-    this.isExpanded = false
-  });
+  ParticipantData(
+      {required this.name,
+      required this.items,
+      required this.totalPrice,
+      this.isExpanded = false});
 }

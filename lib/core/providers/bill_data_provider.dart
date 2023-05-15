@@ -7,19 +7,14 @@ import '../models/bill_model.dart';
 import '../models/participant_model.dart';
 
 class BillDataProvider extends ChangeNotifier {
-
-  BillData _billData = BillData(
-    participants: [],
-    paidList: [],
-    items: []
-  );
+  BillData _billData = BillData(participants: [], paidList: [], items: []);
   BillData get billData => _billData;
 
   List<ParticipantData> _participantData = [];
   List<ParticipantData> get participantData => _participantData;
 
-  int _totalPrice = 0;
-  int get totalPrice => _totalPrice;
+  double _totalPrice = 0;
+  double get totalPrice => _totalPrice;
 
   set billData(BillData data) {
     _billData = data;
@@ -28,12 +23,12 @@ class BillDataProvider extends ChangeNotifier {
     save();
   }
 
-  int calculateTotalPrice(List<BillItemData> data) {
+  double calculateTotalPrice(List<BillItemData> data) {
     var sum = 0.0;
     for (var i in data) {
       sum += i.totalPrice;
     }
-    return sum.ceil();
+    return sum;
   }
 
   void addItem(BillItemData item) {
@@ -78,7 +73,7 @@ class BillDataProvider extends ChangeNotifier {
     for (BillItemData item in newBillData.items) {
       if (item.participantsData.containsKey(oldName)) {
         int v = item.participantsData[oldName]!.toInt();
-        item.participantsData.addAll({newName:v});
+        item.participantsData.addAll({newName: v});
         item.participantsData.remove(oldName);
       }
     }
@@ -108,7 +103,7 @@ class BillDataProvider extends ChangeNotifier {
 
   void togglePaid(String name) {
     BillData newBillData = _billData;
-    
+
     if (newBillData.paidList.contains(name)) {
       newBillData.paidList.remove(name);
     } else {
@@ -120,11 +115,7 @@ class BillDataProvider extends ChangeNotifier {
   }
 
   void clear() {
-    billData = BillData(
-      participants: [], 
-      paidList: [], 
-      items: []
-    );
+    billData = BillData(participants: [], paidList: [], items: []);
     notifyListeners();
   }
 
@@ -137,11 +128,7 @@ class BillDataProvider extends ChangeNotifier {
     if (billString != null) {
       billData = base64ToBillData(billString);
     } else {
-      billData = BillData(
-        participants: [], 
-        paidList: [], 
-        items: []
-      );
+      billData = BillData(participants: [], paidList: [], items: []);
     }
     notifyListeners();
   }
