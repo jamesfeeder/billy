@@ -5,11 +5,9 @@ import 'package:flutter/material.dart';
 import '../../core/providers/bill_data_provider.dart';
 
 class RemoveItemDialog extends StatelessWidget {
-  const RemoveItemDialog({
-    Key? key,
-    required this.billDataProvider,
-    required this.index
-  }) : super(key: key);
+  const RemoveItemDialog(
+      {Key? key, required this.billDataProvider, required this.index})
+      : super(key: key);
 
   final BillDataProvider billDataProvider;
   final int index;
@@ -28,38 +26,34 @@ class RemoveItemDialog extends StatelessWidget {
           children: [
             Padding(
               padding: const EdgeInsets.all(16.0),
-              child: Text(
-                "ลบรายการ",
-                style: Theme.of(context).textTheme.headline6?.copyWith(
-                  color: Theme.of(context).colorScheme.primary
-                )
-              ),
+              child: Text("ลบรายการ",
+                  style: Theme.of(context)
+                      .textTheme
+                      .headlineSmall
+                      ?.copyWith(color: Theme.of(context).colorScheme.primary)),
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: Text(
-                'ลบ "$name x$quantity" ออกจากรายการ?',
-                style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                  color: Theme.of(context).colorScheme.primary
-                )
-              ),
+              child: Text('ลบ "$name x$quantity" ออกจากรายการ?',
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodyLarge
+                      ?.copyWith(color: Theme.of(context).colorScheme.primary)),
             ),
             ButtonBar(
               children: [
                 TextButton(
-                  onPressed: () => Navigator.pop(context),
-                  child: const Text("ยกเลิก")
-                ),
+                    onPressed: () => Navigator.pop(context),
+                    child: const Text("ยกเลิก")),
                 TextButton(
-                  onPressed: () {
-                    billDataProvider.removeItem(index);
-                    Navigator.pop(context);
-                  },
-                  child: Text(
-                    "ลบ",
-                    style: TextStyle(color: Colors.red[900]),
-                  )
-                )
+                    onPressed: () {
+                      billDataProvider.removeItem(index);
+                      Navigator.pop(context);
+                    },
+                    child: Text(
+                      "ลบ",
+                      style: TextStyle(color: Colors.red[900]),
+                    ))
               ],
             )
           ],
